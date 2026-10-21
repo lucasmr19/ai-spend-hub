@@ -45,7 +45,12 @@ def merge_insert_only(df, table, key):
 with RunLog(spark, log_table, "silver", run_id) as log:
     dims = tf.load_dimensions(spark, f"{base}/dimensions")
     bronze = spark.table(fq("bronze_inference_events"))
-    classified = tf.classify_lines(bronze, dims).cache()
+    # Serverless compute does not support .cache()/.persist(): materialise the classification once in a
+    # staging Delta table (overwritten every run, a deterministic function of Bronze) and read from it.
+    stage = fq("_stg_classified")
+    (tf.classify_lines(bronze, dims).write.format("delta").mode("overwrite")
+        .option("overwriteSchema", "true").saveAsTable(stage))
+    classified = spark.table(stage)
 
     silver_new = tf.canonicalize(classified, "silver")
     late_new = tf.canonicalize(classified, "late_quarantine")
