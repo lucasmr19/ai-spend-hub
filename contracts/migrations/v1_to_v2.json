@@ -1,0 +1,23 @@
+{
+  "from": 1,
+  "to": 2,
+  "breaking": true,
+  "renames": {
+    "latency_ms": "latency_total_ms"
+  },
+  "replaced": {
+    "cache_hit": {
+      "by": "cache_status",
+      "rule": "true -> 'hit', false -> 'miss' (v1 cannot express 'bypass')"
+    }
+  },
+  "defaults": {
+    "request_type": {
+      "rule": "lookup apps.default_request_type by app_id",
+      "source": "dimensions/apps.csv"
+    },
+    "ttft_ms": { "rule": "null (not available in v1)" }
+  },
+  "dropped": [],
+  "notes": "Producers migrate app by app between 2026-08-20 and 2026-09-03; two legacy apps stay on v1 until the end of the dataset. Consumers must accept both versions indefinitely and normalise to the canonical silver schema (v2 shape + source_schema_version)."
+}

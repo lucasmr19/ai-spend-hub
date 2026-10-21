@@ -1,0 +1,22 @@
+[project]
+name = "ai-spend-hub"
+version = "0.1.0"
+description = "AI Spend & Reliability Hub - synthetic data, contracts and reference implementation (Databricks + Snowflake portfolio project)"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.26", "jsonschema>=4.20"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5"]
+spark = ["pyspark==4.0.1", "delta-spark==4.0.0"]
+
+[tool.pytest.ini_options]
+pythonpath = [".", "databricks/src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 130
+builtins = ["spark", "dbutils", "display"]  # injected by Databricks notebooks
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]

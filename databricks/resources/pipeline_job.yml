@@ -1,0 +1,46 @@
+# Daily pipeline: bronze -> silver -> gold -> reconcile. Tasks run on serverless compute
+# (no cluster definition, as required on Free Edition). The backfill is a separate manual job.
+resources:
+  jobs:
+    ai_spend_daily:
+      name: ai-spend-daily
+      max_concurrent_runs: 1            # Free Edition: keep 1-2 workloads at a time
+      parameters:
+        - name: catalog
+          default: ${var.catalog}
+        - name: schema
+          default: ${var.schema}
+      tasks:
+        - task_key: bronze
+          notebook_task:
+            notebook_path: ../notebooks/01_bronze.py
+            base_parameters: { catalog: "{{job.parameters.catalog}}", schema: "{{job.parameters.schema}}", run_id: "{{job.run_id}}" }
+        - task_key: silver
+          depends_on: [{ task_key: bronze }]
+          notebook_task:
+            notebook_path: ../notebooks/02_silver.py
+            base_parameters: { catalog: "{{job.parameters.catalog}}", schema: "{{job.parameters.schema}}", run_id: "{{job.run_id}}" }
+        - task_key: gold
+          depends_on: [{ task_key: silver }]
+          notebook_task:
+            notebook_path: ../notebooks/03_gold.py
+            base_parameters: { catalog: "{{job.parameters.catalog}}", schema: "{{job.parameters.schema}}", run_id: "{{job.run_id}}" }
+        - task_key: reconcile
+          depends_on: [{ task_key: gold }]
+          notebook_task:
+            notebook_path: ../notebooks/04_reconcile.py
+            base_parameters: { catalog: "{{job.parameters.catalog}}", schema: "{{job.parameters.schema}}", run_id: "{{job.run_id}}", phase: pre_backfill }
+
+    ai_spend_backfill_late:
+      name: ai-spend-backfill-late
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: backfill
+          notebook_task:
+            notebook_path: ../notebooks/05_backfill_late.py
+            base_parameters: { catalog: ${var.catalog}, schema: ${var.schema}, run_id: "{{job.run_id}}" }
+        - task_key: reconcile_complete
+          depends_on: [{ task_key: backfill }]
+          notebook_task:
+            notebook_path: ../notebooks/04_reconcile.py
+            base_parameters: { catalog: ${var.catalog}, schema: ${var.schema}, run_id: "{{job.run_id}}", phase: complete }

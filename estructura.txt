@@ -1,0 +1,210 @@
+Listado de rutas de carpetas
+El número de serie del volumen es 7829-4441
+C:.
+¦   .gitignore
+¦   estructura.txt
+¦   Makefile
+¦   progress.md
+¦   pyproject.toml
+¦   README.md
+¦   
++---.github
+¦   +---workflows
+¦           ci.yml
+¦           
++---contracts
+¦   ¦   check_compat.py
+¦   ¦   inference_event.v1.schema.json
+¦   ¦   inference_event.v2.schema.json
+¦   ¦   migrate.py
+¦   ¦   README.md
+¦   ¦   validate.py
+¦   ¦   __init__.py
+¦   ¦   
+¦   +---migrations
+¦           v1_to_v2.json
+¦           
++---databricks
+¦   ¦   databricks.yml
+¦   ¦   
+¦   +---notebooks
+¦   ¦       00_setup.py
+¦   ¦       01_bronze.py
+¦   ¦       02_silver.py
+¦   ¦       03_gold.py
+¦   ¦       04_reconcile.py
+¦   ¦       05_backfill_late.py
+¦   ¦       
+¦   +---resources
+¦   ¦       pipeline_job.yml
+¦   ¦       
+¦   +---src
+¦       +---ai_spend
+¦               gate.py
+¦               gold.py
+¦               ops.py
+¦               reconcile.py
+¦               transform.py
+¦               __init__.py
+¦               
++---docs
+¦   ¦   databricks-runbook.md
+¦   ¦   kpi-definitions.md
+¦   ¦   requirements.md
+¦   ¦   
+¦   +---adr
+¦           0001-zero-cost-policy.md
+¦           0002-lakehouse-and-warehouse-split.md
+¦           
++---generator
+¦   ¦   dimensions.py
+¦   ¦   generate.py
+¦   ¦   scenarios.py
+¦   ¦   truth.py
+¦   ¦   __init__.py
+¦   ¦   __main__.py
+¦   ¦   
+¦   +---__pycache__
+¦           dimensions.cpython-313.pyc
+¦           generate.cpython-313.pyc
+¦           scenarios.cpython-313.pyc
+¦           truth.cpython-313.pyc
+¦           __init__.cpython-313.pyc
+¦           __main__.cpython-313.pyc
+¦           
++---out
+¦   +---synthetic
+¦       ¦   ground_truth.json
+¦       ¦   manifest.json
+¦       ¦   
+¦       +---dimensions
+¦       ¦       apps.csv
+¦       ¦       budgets.csv
+¦       ¦       departments.csv
+¦       ¦       models.csv
+¦       ¦       model_prices.csv
+¦       ¦       model_quality.csv
+¦       ¦       slo_targets.csv
+¦       ¦       
+¦       +---landing
+¦           +---inference_events
+¦                   dt=2026-07-01_events-000.jsonl.gz
+¦                   dt=2026-07-02_events-000.jsonl.gz
+¦                   dt=2026-07-03_events-000.jsonl.gz
+¦                   dt=2026-07-04_events-000.jsonl.gz
+¦                   dt=2026-07-05_events-000.jsonl.gz
+¦                   dt=2026-07-06_events-000.jsonl.gz
+¦                   dt=2026-07-07_events-000.jsonl.gz
+¦                   dt=2026-07-08_events-000.jsonl.gz
+¦                   dt=2026-07-09_events-000.jsonl.gz
+¦                   dt=2026-07-10_events-000.jsonl.gz
+¦                   dt=2026-07-11_events-000.jsonl.gz
+¦                   dt=2026-07-12_events-000.jsonl.gz
+¦                   dt=2026-07-13_events-000.jsonl.gz
+¦                   dt=2026-07-14_events-000.jsonl.gz
+¦                   dt=2026-07-15_events-000.jsonl.gz
+¦                   dt=2026-07-16_events-000.jsonl.gz
+¦                   dt=2026-07-17_events-000.jsonl.gz
+¦                   dt=2026-07-18_events-000.jsonl.gz
+¦                   dt=2026-07-19_events-000.jsonl.gz
+¦                   dt=2026-07-20_events-000.jsonl.gz
+¦                   dt=2026-07-21_events-000.jsonl.gz
+¦                   dt=2026-07-22_events-000.jsonl.gz
+¦                   dt=2026-07-23_events-000.jsonl.gz
+¦                   dt=2026-07-24_events-000.jsonl.gz
+¦                   dt=2026-07-25_events-000.jsonl.gz
+¦                   dt=2026-07-26_events-000.jsonl.gz
+¦                   dt=2026-07-27_events-000.jsonl.gz
+¦                   dt=2026-07-28_events-000.jsonl.gz
+¦                   dt=2026-07-29_events-000.jsonl.gz
+¦                   dt=2026-07-30_events-000.jsonl.gz
+¦                   dt=2026-07-31_events-000.jsonl.gz
+¦                   dt=2026-08-01_events-000.jsonl.gz
+¦                   dt=2026-08-02_events-000.jsonl.gz
+¦                   dt=2026-08-03_events-000.jsonl.gz
+¦                   dt=2026-08-04_events-000.jsonl.gz
+¦                   dt=2026-08-05_events-000.jsonl.gz
+¦                   dt=2026-08-06_events-000.jsonl.gz
+¦                   dt=2026-08-07_events-000.jsonl.gz
+¦                   dt=2026-08-08_events-000.jsonl.gz
+¦                   dt=2026-08-09_events-000.jsonl.gz
+¦                   dt=2026-08-10_events-000.jsonl.gz
+¦                   dt=2026-08-11_events-000.jsonl.gz
+¦                   dt=2026-08-12_events-000.jsonl.gz
+¦                   dt=2026-08-13_events-000.jsonl.gz
+¦                   dt=2026-08-14_events-000.jsonl.gz
+¦                   dt=2026-08-15_events-000.jsonl.gz
+¦                   dt=2026-08-16_events-000.jsonl.gz
+¦                   dt=2026-08-17_events-000.jsonl.gz
+¦                   dt=2026-08-18_events-000.jsonl.gz
+¦                   dt=2026-08-19_events-000.jsonl.gz
+¦                   dt=2026-08-20_events-000.jsonl.gz
+¦                   dt=2026-08-21_events-000.jsonl.gz
+¦                   dt=2026-08-22_events-000.jsonl.gz
+¦                   dt=2026-08-23_events-000.jsonl.gz
+¦                   dt=2026-08-24_events-000.jsonl.gz
+¦                   dt=2026-08-25_events-000.jsonl.gz
+¦                   dt=2026-08-26_events-000.jsonl.gz
+¦                   dt=2026-08-27_events-000.jsonl.gz
+¦                   dt=2026-08-28_events-000.jsonl.gz
+¦                   dt=2026-08-29_events-000.jsonl.gz
+¦                   dt=2026-08-30_events-000.jsonl.gz
+¦                   dt=2026-08-31_events-000.jsonl.gz
+¦                   dt=2026-09-01_events-000.jsonl.gz
+¦                   dt=2026-09-02_events-000.jsonl.gz
+¦                   dt=2026-09-03_events-000.jsonl.gz
+¦                   dt=2026-09-04_events-000.jsonl.gz
+¦                   dt=2026-09-05_events-000.jsonl.gz
+¦                   dt=2026-09-06_events-000.jsonl.gz
+¦                   dt=2026-09-07_events-000.jsonl.gz
+¦                   dt=2026-09-08_events-000.jsonl.gz
+¦                   dt=2026-09-09_events-000.jsonl.gz
+¦                   dt=2026-09-10_events-000.jsonl.gz
+¦                   dt=2026-09-11_events-000.jsonl.gz
+¦                   dt=2026-09-12_events-000.jsonl.gz
+¦                   dt=2026-09-13_events-000.jsonl.gz
+¦                   dt=2026-09-14_events-000.jsonl.gz
+¦                   dt=2026-09-15_events-000.jsonl.gz
+¦                   dt=2026-09-16_events-000.jsonl.gz
+¦                   dt=2026-09-17_events-000.jsonl.gz
+¦                   dt=2026-09-18_events-000.jsonl.gz
+¦                   dt=2026-09-19_events-000.jsonl.gz
+¦                   dt=2026-09-20_events-000.jsonl.gz
+¦                   dt=2026-09-21_events-000.jsonl.gz
+¦                   dt=2026-09-22_events-000.jsonl.gz
+¦                   dt=2026-09-23_events-000.jsonl.gz
+¦                   dt=2026-09-24_events-000.jsonl.gz
+¦                   dt=2026-09-25_events-000.jsonl.gz
+¦                   dt=2026-09-26_events-000.jsonl.gz
+¦                   dt=2026-09-27_events-000.jsonl.gz
+¦                   dt=2026-09-28_events-000.jsonl.gz
+¦                   dt=2026-09-29_events-000.jsonl.gz
+¦                   dt=2026-09-30_events-000.jsonl.gz
+¦                   dt=2026-10-01_events-000.jsonl.gz
+¦                   dt=2026-10-02_events-000.jsonl.gz
+¦                   dt=2026-10-03_events-000.jsonl.gz
+¦                   dt=2026-10-04_events-000.jsonl.gz
+¦                   dt=2026-10-05_events-000.jsonl.gz
+¦                   dt=2026-10-06_events-000.jsonl.gz
+¦                   dt=2026-10-07_events-000.jsonl.gz
+¦                   dt=2026-10-08_events-000.jsonl.gz
+¦                   dt=2026-10-09_events-000.jsonl.gz
+¦                   dt=2026-10-10_events-000.jsonl.gz
+¦                   dt=2026-10-11_events-000.jsonl.gz
+¦                   dt=2026-10-12_events-000.jsonl.gz
+¦                   dt=2026-10-13_events-000.jsonl.gz
+¦                   dt=2026-10-14_events-000.jsonl.gz
+¦                   dt=2026-10-15_events-000.jsonl.gz
+¦                   dt=2026-10-16_events-000.jsonl.gz
+¦                   dt=2026-10-17_events-000.jsonl.gz
+¦                   dt=2026-10-18_events-000.jsonl.gz
+¦                   
++---reference
+¦       pipeline.py
+¦       __init__.py
+¦       
++---tests
+        test_contracts.py
+        test_generator.py
+        test_spark_pipeline.py
+        

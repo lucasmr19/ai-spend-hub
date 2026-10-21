@@ -1,0 +1,21 @@
+# Databricks Asset Bundle — OPTIONAL path (see docs/databricks-runbook.md, section 6).
+# Not yet verified against Databricks Free Edition: if `databricks bundle deploy` is not supported there,
+# run the notebooks manually in order (00 -> 05) or create the job from the UI with the same task graph.
+bundle:
+  name: ai-spend-hub
+
+variables:
+  catalog:
+    default: workspace
+  schema:
+    default: ai_spend
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://REPLACE-WITH-YOUR-WORKSPACE-URL.cloud.databricks.com   # no token here: use `databricks auth login`

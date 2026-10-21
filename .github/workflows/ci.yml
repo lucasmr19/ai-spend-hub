@@ -1,0 +1,28 @@
+name: ci
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - run: pip install -e ".[dev,spark]"
+      - name: Lint
+        run: ruff check .
+      - name: Contract compatibility (v1 -> v2 must be covered by the migration file)
+        run: make contracts
+      - name: Tests (generator, contracts, reference pipeline and Spark logic vs ground truth)
+        run: pytest -q
