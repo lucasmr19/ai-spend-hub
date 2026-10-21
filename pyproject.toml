@@ -9,6 +9,11 @@ dependencies = ["numpy>=1.26", "jsonschema>=4.20"]
 dev = ["pytest>=8", "ruff>=0.5"]
 spark = ["pyspark==4.0.1", "delta-spark==4.0.0"]
 
+# Application repository, not a library: no package is distributed. Disabling auto-discovery avoids the
+# "multiple top-level packages" error; imports work through pytest's pythonpath / running from the repo root.
+[tool.setuptools]
+py-modules = []
+
 [tool.pytest.ini_options]
 pythonpath = [".", "databricks/src"]
 testpaths = ["tests"]
