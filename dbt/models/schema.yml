@@ -1,0 +1,22 @@
+version: 2
+models:
+  - name: mart_cost_by_department_month
+    columns:
+      - {name: department_id, tests: [not_null]}
+      - {name: month, tests: [not_null]}
+      - {name: cost_eur, tests: [not_null]}
+  - name: mart_model_efficiency
+    columns:
+      - {name: model_id, tests: [not_null]}
+      - {name: pareto_efficient, tests: [not_null]}
+  - name: mart_slo_compliance
+    columns:
+      - {name: app_id, tests: [not_null]}
+      - {name: breached, tests: [not_null]}
+  - name: mart_chargeback
+    columns:
+      - {name: department_id, tests: [not_null]}
+  - name: fct_inference
+    columns:
+      - {name: event_id, tests: [unique, not_null]}
+      - {name: user_hash, tests: [not_null]}

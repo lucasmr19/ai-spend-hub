@@ -1,0 +1,17 @@
+name: ai_spend
+version: "1.0.0"
+config-version: 2
+profile: ai_spend
+model-paths: ["models"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+target-path: target
+clean-targets: [target, dbt_packages]
+vars:
+  # Salt for pseudonymising user_id. NEVER commit a real value: set PII_SALT in the environment.
+  pii_salt: "{{ env_var('PII_SALT', 'dev-only-salt') }}"
+  reliable_valid_rate_pct: 97
+models:
+  ai_spend:
+    staging: {+materialized: view, +schema: staging}
+    marts: {+materialized: table, +schema: marts}

@@ -1,0 +1,19 @@
+version: 2
+sources:
+  - name: raw
+    schema: raw
+    description: Gold export loaded by serving/loader.py (contract serving/contract/gold_export.v1.json).
+    tables:
+      - name: fact_inference
+      - name: gold_cost_daily
+      - name: gold_budget_vs_actual
+      - name: gold_slo_monthly
+      - name: gold_model_performance
+      - name: gold_dq_daily
+      - name: gold_quarantine_summary
+      - name: dim_departments
+      - name: dim_apps
+      - name: dim_models
+      - name: dim_model_quality
+      - name: dim_budgets
+      - name: dim_slo_targets

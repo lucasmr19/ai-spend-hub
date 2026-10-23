@@ -1,0 +1,444 @@
+{
+  "version": 1,
+  "tables": {
+    "dim_apps": {
+      "columns": [
+        {
+          "name": "app_id",
+          "type": "string"
+        },
+        {
+          "name": "department_id",
+          "type": "string"
+        },
+        {
+          "name": "default_request_type",
+          "type": "string"
+        },
+        {
+          "name": "cache_enabled",
+          "type": "boolean"
+        }
+      ],
+      "sums": []
+    },
+    "dim_budgets": {
+      "columns": [
+        {
+          "name": "department_id",
+          "type": "string"
+        },
+        {
+          "name": "month",
+          "type": "string"
+        },
+        {
+          "name": "budget_eur",
+          "type": "decimal(12,2)"
+        }
+      ],
+      "sums": ["budget_eur"]
+    },
+    "dim_departments": {
+      "columns": [
+        {
+          "name": "department_id",
+          "type": "string"
+        },
+        {
+          "name": "department_name",
+          "type": "string"
+        }
+      ],
+      "sums": []
+    },
+    "dim_model_quality": {
+      "columns": [
+        {
+          "name": "model_id",
+          "type": "string"
+        },
+        {
+          "name": "request_type",
+          "type": "string"
+        },
+        {
+          "name": "quality_score",
+          "type": "double"
+        },
+        {
+          "name": "eval_samples",
+          "type": "int"
+        }
+      ],
+      "sums": ["eval_samples"]
+    },
+    "dim_models": {
+      "columns": [
+        {
+          "name": "model_id",
+          "type": "string"
+        },
+        {
+          "name": "family",
+          "type": "string"
+        }
+      ],
+      "sums": []
+    },
+    "dim_slo_targets": {
+      "columns": [
+        {
+          "name": "app_id",
+          "type": "string"
+        },
+        {
+          "name": "target_availability_pct",
+          "type": "double"
+        }
+      ],
+      "sums": []
+    },
+    "fact_inference": {
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "string"
+        },
+        {
+          "name": "event_ts",
+          "type": "timestamp"
+        },
+        {
+          "name": "event_date",
+          "type": "date"
+        },
+        {
+          "name": "app_id",
+          "type": "string"
+        },
+        {
+          "name": "department_id",
+          "type": "string"
+        },
+        {
+          "name": "model_id",
+          "type": "string"
+        },
+        {
+          "name": "user_id",
+          "type": "string"
+        },
+        {
+          "name": "request_type",
+          "type": "string"
+        },
+        {
+          "name": "tokens_in",
+          "type": "bigint"
+        },
+        {
+          "name": "tokens_out",
+          "type": "bigint"
+        },
+        {
+          "name": "latency_total_ms",
+          "type": "bigint"
+        },
+        {
+          "name": "ttft_ms",
+          "type": "bigint"
+        },
+        {
+          "name": "cache_status",
+          "type": "string"
+        },
+        {
+          "name": "status",
+          "type": "string"
+        },
+        {
+          "name": "error_code",
+          "type": "string"
+        },
+        {
+          "name": "source_schema_version",
+          "type": "int"
+        },
+        {
+          "name": "arrival_date",
+          "type": "date"
+        },
+        {
+          "name": "lag_days",
+          "type": "int"
+        },
+        {
+          "name": "source_file",
+          "type": "string"
+        },
+        {
+          "name": "price_in_centi",
+          "type": "int"
+        },
+        {
+          "name": "price_out_centi",
+          "type": "int"
+        },
+        {
+          "name": "cost_units",
+          "type": "bigint"
+        },
+        {
+          "name": "is_billable",
+          "type": "boolean"
+        },
+        {
+          "name": "is_cache_hit",
+          "type": "boolean"
+        }
+      ],
+      "sums": ["cost_units", "tokens_in", "tokens_out"]
+    },
+    "gold_budget_vs_actual": {
+      "columns": [
+        {
+          "name": "department_id",
+          "type": "string"
+        },
+        {
+          "name": "month",
+          "type": "string"
+        },
+        {
+          "name": "cost_units",
+          "type": "bigint"
+        },
+        {
+          "name": "cost_eur",
+          "type": "decimal(20,8)"
+        },
+        {
+          "name": "budget_eur",
+          "type": "decimal(12,2)"
+        },
+        {
+          "name": "utilisation_pct",
+          "type": "decimal(20,1)"
+        },
+        {
+          "name": "over_budget",
+          "type": "boolean"
+        }
+      ],
+      "sums": ["cost_units"]
+    },
+    "gold_cost_daily": {
+      "columns": [
+        {
+          "name": "event_date",
+          "type": "date"
+        },
+        {
+          "name": "department_id",
+          "type": "string"
+        },
+        {
+          "name": "app_id",
+          "type": "string"
+        },
+        {
+          "name": "model_id",
+          "type": "string"
+        },
+        {
+          "name": "request_type",
+          "type": "string"
+        },
+        {
+          "name": "requests",
+          "type": "bigint"
+        },
+        {
+          "name": "billable_requests",
+          "type": "bigint"
+        },
+        {
+          "name": "cache_hits",
+          "type": "bigint"
+        },
+        {
+          "name": "failed_requests",
+          "type": "bigint"
+        },
+        {
+          "name": "tokens_in",
+          "type": "bigint"
+        },
+        {
+          "name": "tokens_out",
+          "type": "bigint"
+        },
+        {
+          "name": "cost_units",
+          "type": "bigint"
+        },
+        {
+          "name": "cache_savings_units",
+          "type": "bigint"
+        },
+        {
+          "name": "cost_eur",
+          "type": "decimal(20,8)"
+        },
+        {
+          "name": "cache_savings_eur",
+          "type": "decimal(20,8)"
+        }
+      ],
+      "sums": ["cache_savings_units", "cost_units", "requests"]
+    },
+    "gold_dq_daily": {
+      "columns": [
+        {
+          "name": "arrival_date",
+          "type": "date"
+        },
+        {
+          "name": "lines_received",
+          "type": "bigint"
+        },
+        {
+          "name": "accepted",
+          "type": "bigint"
+        },
+        {
+          "name": "duplicates_dropped",
+          "type": "bigint"
+        },
+        {
+          "name": "late_quarantined",
+          "type": "bigint"
+        },
+        {
+          "name": "invalid_quarantined",
+          "type": "bigint"
+        },
+        {
+          "name": "valid_rate_pct",
+          "type": "double"
+        },
+        {
+          "name": "late_arrivals",
+          "type": "bigint"
+        }
+      ],
+      "sums": [
+        "accepted",
+        "duplicates_dropped",
+        "invalid_quarantined",
+        "late_quarantined",
+        "lines_received"
+      ]
+    },
+    "gold_model_performance": {
+      "columns": [
+        {
+          "name": "model_id",
+          "type": "string"
+        },
+        {
+          "name": "request_type",
+          "type": "string"
+        },
+        {
+          "name": "month",
+          "type": "string"
+        },
+        {
+          "name": "invocations",
+          "type": "bigint"
+        },
+        {
+          "name": "cost_units",
+          "type": "bigint"
+        },
+        {
+          "name": "cost_eur",
+          "type": "decimal(20,8)"
+        },
+        {
+          "name": "cost_per_1k_invocations_eur",
+          "type": "decimal(24,6)"
+        },
+        {
+          "name": "latency_p50_ms",
+          "type": "double"
+        },
+        {
+          "name": "latency_p95_ms",
+          "type": "double"
+        },
+        {
+          "name": "quality_score",
+          "type": "double"
+        }
+      ],
+      "sums": ["cost_units", "invocations"]
+    },
+    "gold_quarantine_summary": {
+      "columns": [
+        {
+          "name": "reason_code",
+          "type": "string"
+        },
+        {
+          "name": "records",
+          "type": "bigint"
+        },
+        {
+          "name": "first_arrival",
+          "type": "date"
+        },
+        {
+          "name": "last_arrival",
+          "type": "date"
+        }
+      ],
+      "sums": ["records"]
+    },
+    "gold_slo_monthly": {
+      "columns": [
+        {
+          "name": "app_id",
+          "type": "string"
+        },
+        {
+          "name": "month",
+          "type": "string"
+        },
+        {
+          "name": "total",
+          "type": "bigint"
+        },
+        {
+          "name": "failed",
+          "type": "bigint"
+        },
+        {
+          "name": "availability_pct",
+          "type": "double"
+        },
+        {
+          "name": "target_pct",
+          "type": "double"
+        },
+        {
+          "name": "breached",
+          "type": "boolean"
+        }
+      ],
+      "sums": ["failed", "total"]
+    }
+  }
+}

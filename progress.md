@@ -1,15 +1,15 @@
 # progress.md — AI Spend & Reliability Hub
 
-Last update: 2026-10-20 · Package: `ai-spend-hub-week2.zip` (provisional: Week 2 written and tested locally, not yet run on Databricks)
+Last update: 2026-10-21 · Package: `ai-spend-hub-week2.zip` (Week 2 executed on your Databricks Free Edition; Week 3 not started)
 
 ## Status
 
-| Week | Scope | State |
-|---|---|---|
-| 1 | Requirements, KPI definitions, €0 policy, contracts v1/v2, generator + ground truth, reference pipeline, tests, CI | **done** |
-| 2 | Databricks: Spark logic, notebooks, gate, run log, runbook | **written + tested locally; waiting for first run on your Free Edition workspace** |
-| 3 | Snowflake load, dbt marts + tests (DuckDB first), RBAC, masking, resource monitor | not started |
-| 4 | Dashboard, runbook (ops), cost model, portfolio case-study page | not started |
+| Week | Scope                                                                                                              | State                                                                                                                               |
+| ---- | ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Requirements, KPI definitions, €0 policy, contracts v1/v2, generator + ground truth, reference pipeline, tests, CI | **done**                                                                                                                            |
+| 2    | Databricks: Spark logic, notebooks, gate, run log, runbook                                                         | **done** — all notebooks ran on Free Edition (reported by you); reconciliation results still to be confirmed with the queries below |
+| 3    | Snowflake load, dbt marts + tests (DuckDB first), RBAC, masking, resource monitor                                  | not started                                                                                                                         |
+| 4    | Dashboard, runbook (ops), cost model, portfolio case-study page                                                    | not started                                                                                                                         |
 
 ## What was done in Week 2
 
@@ -26,23 +26,39 @@ Last update: 2026-10-20 · Package: `ai-spend-hub-week2.zip` (provisional: Week 
 - Spark reason code == Python oracle reason code for every one of 60,772 lines (small preset).
 - Gate passes on clean data and blocks a poisoned batch.
 
-## NOT verified yet (needs your Databricks account)
+## Findings from the first real run (2026-10-21)
 
-1. Auto Loader (`cloudFiles`, text, `availableNow`) on a Unity Catalog volume in Free Edition.
+- Notebooks 00 and 01 ran on Free Edition (setup + Auto Loader OK).
+- `02_silver` failed: `.cache()` is not supported on serverless (`NOT_SUPPORTED_WITH_SERVERLESS: PERSIST TABLE`). Fixed: the classification is materialised in a staging Delta table `_stg_classified`. No other `cache/persist/rdd/sparkContext` use in `databricks/`. Lesson: local Spark accepts APIs that serverless (Spark Connect) rejects, so each notebook needs a real first run.
+
+## Confirmed on Databricks Free Edition (user-reported, 2026-10-21)
+
+- Notebooks 00 → 05 and both reconcile phases ran without further errors after the `cache()` fix. This confirms Auto Loader on a volume, Delta `MERGE`, serverless execution and the `../src` bootstrap.
+- To record the evidence, run in the SQL editor: `ops_reconciliation` (expect 8 OK in `pre_backfill`, 15 OK in `complete`), `ops_run_log`, `gold_budget_vs_actual`, `gold_slo_monthly`.
+
+## Still not verified
+
+1. Job / bundle deployment (optional path).
+2. Failure demo from runbook section 5 (gate blocking a poisoned batch) on the real workspace.
+
+## Superseded checklist (kept for history)
+
+1. ~~Auto Loader on a volume~~ — confirmed working (notebook 01 ran).
 2. Delta `MERGE … WHEN NOT MATCHED INSERT *` — the sandbox cannot download Delta jars, so MERGE was not tested locally.
 3. Notebook path bootstrap (`../src`), widget defaults (catalog name `workspace`?), `display`, serverless quota with ~380 k lines.
 4. Bundle/job deployment on Free Edition (optional path).
 
-## Next step for you
+## Next steps
 
-Follow `docs/databricks-runbook.md` sections 2–4 (upload data, run notebooks 00→05) and send me the exact error text of anything that fails, plus your catalog name. I will fix paths/settings; the logic is already reconciled.
+You: confirm reconciliation (queries), run the failure demo (runbook section 5), capture screenshots (section 8). **Do not create the Snowflake account yet** (30-day clock).
+Me (Week 3, no account needed): `06_export_gold` notebook (Gold → Parquet in the volume), dbt project tested on DuckDB with the local Gold, Snowflake DDL/roles/masking scripts. Snowflake trial is created only when those are ready.
 
 ## Open items
 
 - Lakeflow Declarative Pipelines (expectations) variant — deferred until step 1–2 above are confirmed.
 - BI tool choice (Power BI vs Streamlit in Snowflake) — Week 4.
 - Gate thresholds are proposals to agree with the client.
-- Repo not pushed to GitHub yet (CI has never run remotely).
+- CI on GitHub: first run failed on `pip install` (setuptools auto-discovery of several top-level folders). Fixed with `[tool.setuptools] py-modules = []`; actions bumped (checkout v5, setup-python v6, setup-java v5) and runner pinned to `ubuntu-24.04`. Verified on a clean copy (install, ruff, 27 tests) — the next GitHub run is still to be confirmed.
 - Production cost estimate in Week 4 from current vendor price lists.
 
 ## How to run locally

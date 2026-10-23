@@ -1,0 +1,17 @@
+# Copy to ~/.dbt/profiles.yml (or set DBT_PROFILES_DIR). Credentials come from the environment, never from git.
+ai_spend:
+  target: "{{ env_var('DBT_TARGET', 'duckdb') }}"
+  outputs:
+    duckdb:                       # dev / CI: no server needed
+      type: duckdb
+      path: "{{ env_var('DUCKDB_PATH', 'target/ai_spend.duckdb') }}"
+      threads: 4
+    postgres:                     # governed serving layer (see serving/ and docs/adr/0003)
+      type: postgres
+      host: "{{ env_var('PGHOST', 'localhost') }}"
+      port: "{{ env_var('PGPORT', '5432') | as_number }}"
+      user: "{{ env_var('PGUSER', 'ai_dbt') }}"
+      password: "{{ env_var('PGPASSWORD') }}"
+      dbname: "{{ env_var('PGDATABASE', 'ai_spend') }}"
+      schema: analytics
+      threads: 4

@@ -1,0 +1,13 @@
+# Optional local PostgreSQL for the serving layer (UNTESTED in the authoring sandbox: no Docker daemon there;
+# the same steps were verified against a native PostgreSQL 16). Dev credentials only, never reuse them.
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ai_admin
+      POSTGRES_PASSWORD: local-dev-only
+      POSTGRES_DB: ai_spend
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+volumes:
+  pgdata:
